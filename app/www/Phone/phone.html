@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETS2.SITE PHONE - iPhone 17 Pro Max</title>
+  <link rel="stylesheet" href="phone.css">
+  <!-- HLS.js: .m3u8 yayınları için (TRT Türkü, TRT Nağme, A Haber vb.) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+</head>
+<body>
+
+  <!-- iPhone 17 Pro Max Titanyum Kasa -->
+  <div class="iphone-frame" id="iphoneFrame">
+    <!-- Yan Donanım Düğmeleri -->
+    <div class="btn-action"></div>
+    <div class="btn-vol-up"></div>
+    <div class="btn-vol-down"></div>
+    <div class="btn-power"></div>
+    <div class="btn-camera-control"></div>
+
+    <!-- Ekran -->
+    <div class="iphone-screen">
+      <!-- Ekran Cam Yansıması -->
+      <div class="screen-glare"></div>
+
+      <!-- Durum Çubuğu (Status Bar) -->
+      <div class="status-bar" id="statusBarDrag">
+        <div class="status-left">
+          <span class="status-time" id="statusClock">12:30</span>
+        </div>
+        
+        <!-- Dinamik Ada (Dynamic Island) -->
+        <div class="dynamic-island-container">
+          <div class="dynamic-island" id="dynamicIsland">
+            <div class="island-camera"></div>
+            <div class="island-sensor"></div>
+            <div class="island-content" id="islandContent">
+              <span id="islandLeft" style="font-size: 11px; color: #5ac8fa;">ETS2.SITE</span>
+              <span id="islandRight" style="font-size: 11px; color: #34c759;">BAĞLI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-right">
+          <!-- 5G Mobil Sinyal -->
+          <svg class="status-icon" viewBox="0 0 24 24">
+            <path d="M2 17h3v4H2v-4zm5-4h3v8H7v-8zm5-4h3v12h-3V9zm5-4h3v16h-3V5z"/>
+          </svg>
+          <!-- Wi-Fi -->
+          <svg class="status-icon" viewBox="0 0 24 24">
+            <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 3.5c3.55 0 6.78 1.45 9.15 3.8L12 19.35 2.85 11.3C5.22 8.95 8.45 7.5 12 7.5z"/>
+          </svg>
+          <!-- Pil Göstergesi -->
+          <div class="battery-pill">
+            <div class="battery-level" id="batteryFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bildirim Toasty -->
+      <div class="phone-toast" id="phoneToast">
+        <div class="toast-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        </div>
+        <div class="toast-content">
+          <div class="toast-title" id="toastTitle">ETS2.SITE</div>
+          <div class="toast-msg" id="toastMsg">İşlem gerçekleştirildi.</div>
+        </div>
+      </div>
+
+      <!-- ================= KİLİT EKRANI (LOCK SCREEN) ================= -->
+      <div class="lock-screen" id="lockScreen">
+        <div class="lock-wallpaper" style="background-image: url('../Assets/lock_screen.png');"></div>
+        <div class="lock-overlay"></div>
+        
+        <div class="lock-header">
+          <div class="lock-padlock">
+            <svg id="lockIcon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          </div>
+          <div class="lock-date" id="lockDate">Pazar, 13 Eylül</div>
+          <div class="lock-time" id="lockTime">12:30</div>
+        </div>
+
+        <div class="lock-footer">
+          <div class="lock-swipe-bar"></div>
+          <div class="lock-swipe-text">Kilidi açmak için tıklayın</div>
+        </div>
+      </div>
+
+      <!-- ================= ANA EKRAN (HOME SCREEN) ================= -->
+      <div class="home-screen" id="homeScreen">
+        <div class="brand-header">
+          <span class="brand-badge">ETS2.SITE</span>
+          <div class="brand-title">IPHONE 17 PRO MAX</div>
+        </div>
+
+        <!-- Uygulama Izgarası -->
+        <div class="app-grid" id="appGrid">
+          <!-- 1. Radyo (Canlı Türk Radyoları) -->
+          <div class="app-item" data-app="radio" onclick="phoneApp.openApp('radio')">
+            <div class="app-icon icon-radio">
+              <svg viewBox="0 0 24 24"><path d="M3.24 6.15C2.51 6.43 2 7.17 2 8v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-.83-.51-1.57-1.24-1.85L12.44 2.7c-.28-.11-.59-.11-.87 0L3.24 6.15zM7 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm12-4h-6v-2h6v2zm0 4h-6v-2h6v2z"/></svg>
+            </div>
+            <div class="app-name">Radyo</div>
+          </div>
+
+          <!-- 3. Hava Durumu -->
+          <div class="app-item" data-app="weather" onclick="phoneApp.openApp('weather')">
+            <div class="app-icon icon-weather">
+              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+            </div>
+            <div class="app-name">Hava Durumu</div>
+          </div>
+
+          <!-- 4. Servis -->
+          <div class="app-item" data-app="service" onclick="phoneApp.openApp('service')">
+            <div class="app-icon icon-service">
+              <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+            </div>
+            <div class="app-name">Servis</div>
+          </div>
+
+          <!-- 5. Saat / Gece-Gündüz -->
+          <div class="app-item" data-app="clock" onclick="phoneApp.openApp('clock')">
+            <div class="app-icon icon-clock">
+              <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            </div>
+            <div class="app-name">Saat</div>
+          </div>
+
+          <!-- 6. Polis -->
+          <div class="app-item" data-app="police" onclick="phoneApp.openApp('police')">
+            <div class="app-icon icon-police">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+            </div>
+            <div class="app-name">Polis</div>
+          </div>
+
+          <!-- 7. Havalı Korna -->
+          <div class="app-item" data-app="horn" onclick="phoneApp.openApp('horn')">
+            <div class="app-icon icon-horn">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            </div>
+            <div class="app-name">Havalı Korna</div>
+          </div>
+
+          <!-- 8. Takograf -->
+          <div class="app-item" data-app="tacho" onclick="phoneApp.openApp('tacho')">
+            <div class="app-icon icon-tacho">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            </div>
+            <div class="app-name">Takograf</div>
+          </div>
+
+          <!-- 9. Kamera & Galeri -->
+          <div class="app-item" data-app="camera" onclick="phoneApp.openApp('camera')">
+            <div class="app-icon icon-camera">
+              <svg viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+            </div>
+            <div class="app-name">Kamera</div>
+          </div>
+
+          <!-- 10. Işınlanma -->
+          <div class="app-item" data-app="teleport" onclick="phoneApp.openApp('teleport')">
+            <div class="app-icon icon-teleport">
+              <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71zM12 4.41L17.29 17 12 14.67 6.71 17 12 4.41z"/></svg>
+            </div>
+            <div class="app-name">Işınlanma</div>
+          </div>
+
+          <!-- 11. Trafik -->
+          <div class="app-item" data-app="traffic" onclick="phoneApp.openApp('traffic')">
+            <div class="app-icon icon-traffic">
+              <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2c-2.76 0-5 2.24-5 5v10c0 2.76 2.24 5 5 5s5-2.24 5-5V7c0-2.76-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3s-3-1.34-3-3V7c0-1.66 1.34-3 3-3zm0 2a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm0 5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm0 5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/></svg>
+            </div>
+            <div class="app-name">Trafik</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= UYGULAMA EKRANLARI (APP VIEWS) ================= -->
+
+      <!-- 0. CANLI TÜRK RADYOLARI UYGULAMASI -->
+      <div class="app-view" id="view-radio">
+        <div class="app-header" style="border-bottom-color: rgba(255, 45, 85, 0.3);">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="width: 22px; height: 22px; background: linear-gradient(135deg, #ff2d55, #ff3b30); border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 8px rgba(255,45,85,0.6);">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+            </div>
+            <span class="app-title" style="font-size: 15px; color: #fff;">Canlı Radyolar</span>
+          </div>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+
+        <div class="app-content" style="display: flex; flex-direction: column;">
+          <!-- Aktif Çalan Radyo Kartı & Ses Dalgası -->
+          <div class="radio-player-card" id="radioPlayerCard">
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div class="radio-active-logo" id="radioActiveLogo">📻</div>
+              <div style="flex: 1; min-width: 0;">
+                <div class="radio-active-title" id="radioActiveTitle">Radyo Seçiniz</div>
+                <div class="radio-active-category" id="radioActiveCategory">Canlı Türk Radyo Ağı</div>
+                <div class="radio-status-tag" id="radioStatus">● DURAKLATILDI</div>
+              </div>
+              <div class="radio-waves" id="radioWaves">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <!-- Kontroller: Oynat/Durdur ve Ses Seviyesi -->
+            <div class="radio-controls-bar">
+              <button class="radio-play-btn" id="radioMainPlayBtn" onclick="phoneApp.toggleRadioPlay()">▶</button>
+              <div style="flex: 1; display: flex; align-items: center; gap: 8px; margin-left: 12px;">
+                <span style="font-size: 11px; color: #8e8e93;">🔊</span>
+                <input type="range" min="0" max="1" step="0.01" value="0.85" id="radioVolumeSlider" style="flex: 1; cursor: pointer; accent-color: #ff2d55;" oninput="phoneApp.setRadioVolume(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Canlı Radyo İstasyonları Listesi -->
+          <div class="ios-list-title" style="color: #ff2d55; letter-spacing: 0.8px; font-weight: 700;">CANLI YAYIN LİSTESİ</div>
+          <div class="radio-stations-list" id="radioStationsList">
+            <!-- JS ile dinamik radyo kartları -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. HAVA DURUMU UYGULAMASI -->
+      <div class="app-view" id="view-weather">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Hava Durumu</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 16px 0 20px 0;">
+            <div style="font-size: 20px; font-weight: 700; color: #fff;" id="weatherCityName">İstanbul</div>
+            <div style="font-size: 44px; font-weight: 200; color: #fff; margin: 4px 0;" id="weatherTemp">21°C</div>
+            <div style="font-size: 13px; color: #8e8e93;" id="weatherDesc">Güneşli ve Açık</div>
+          </div>
+
+          <div class="ios-list-title">Fareyle Tıklayıp Hava Seçin</div>
+          <div class="ios-list-group" id="weatherList">
+            <div class="ios-list-item" onclick="phoneApp.applyWeather('clear', 'Açık Güneşli')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">☀️</div>
+                <div>
+                  <div>Açık / Güneşli</div>
+                  <div class="item-desc">Berrak gökyüzü, mükemmel görüş</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyWeather('rainy', 'Yağmurlu')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #007aff;">🌧️</div>
+                <div>
+                  <div>Yağmurlu</div>
+                  <div class="item-desc">Silecekleri çalıştırın, yol ıslak</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyWeather('foggy', 'Sisli Hava')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #8e8e93;">🌫️</div>
+                <div>
+                  <div>Sisli Hava</div>
+                  <div class="item-desc">Sis farlarını açın, dikkatli sürün</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyWeather('fog_off', 'Sis Kapat')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #34c759;">🌤️</div>
+                <div>
+                  <div>Sis Kapat</div>
+                  <div class="item-desc">Sisi temizle ve gökyüzünü sıfırla</div>
+                </div>
+              </div>
+              <div class="item-badge">Kapat</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. SERVİS UYGULAMASI -->
+      <div class="app-view" id="view-service">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Servis ve Tamir</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div class="ios-list-title">Acil Servis İşlemleri</div>
+          <div class="ios-list-group">
+            <div class="ios-list-item" onclick="phoneApp.callServiceTow()">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🚨</div>
+                <div>
+                  <div style="color: #ff9500; font-weight: 700;">Servise Çektir (F7 Acil Çekici)</div>
+                  <div class="item-desc">Tırı en yakın tamirhaneye nakleder</div>
+                </div>
+              </div>
+              <div class="item-badge">Çek</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.instantRepair()">
+              <div class="item-left">
+                <div class="item-icon" style="background: #34c759;">🛠️</div>
+                <div>
+                  <div>Araç Tamiri ve Bakım</div>
+                  <div class="item-desc">Motor, şanzıman ve lastik hasarını sıfırlar</div>
+                </div>
+              </div>
+              <div class="item-badge">Tamir</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.refuelTruck()">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff2d55;">⛽</div>
+                <div>
+                  <div>Mobil Yakıt İkmali</div>
+                  <div class="item-desc">Depoyu tam doldurur (600 L)</div>
+                </div>
+              </div>
+              <div class="item-badge">Doldur</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. SAAT / GECE - GÜNDÜZ UYGULAMASI -->
+      <div class="app-view" id="view-clock">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Dünya Saati</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 20px 0;">
+            <div style="font-size: 52px; font-weight: 800; color: #fff; letter-spacing: -1.5px;" id="clockLargeTime">12:30</div>
+            <div style="font-size: 13px; color: #34c759; font-weight: 600;">ETS2 OYUN İÇİ ZAMAN</div>
+          </div>
+
+          <div class="ios-list-title">Günün Vakti (Fareyle Tıklayıp Seçin)</div>
+          <div class="ios-list-group">
+            <div class="ios-list-item" onclick="phoneApp.applyTime('morning', 'Sabah 06:00')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🌅</div>
+                <div>
+                  <div>Sabah (Gündoğumu)</div>
+                  <div class="item-desc">Saat: 06:00</div>
+                </div>
+              </div>
+              <div class="item-badge">Uygula</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyTime('noon', 'Öğlen 12:00')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #34c759;">☀️</div>
+                <div>
+                  <div>Öğlen (Tam Günışığı)</div>
+                  <div class="item-desc">Saat: 12:00</div>
+                </div>
+              </div>
+              <div class="item-badge">Uygula</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyTime('evening', 'Akşam 19:00')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff3b30;">🌇</div>
+                <div>
+                  <div>Akşam (Günbatımı)</div>
+                  <div class="item-desc">Saat: 19:00</div>
+                </div>
+              </div>
+              <div class="item-badge">Uygula</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyTime('night', 'Gece 00:00')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #1c1c1e; border: 1px solid #444;">🌙</div>
+                <div>
+                  <div>Gece (Karanlık Sürüş)</div>
+                  <div class="item-desc">Saat: 00:00</div>
+                </div>
+              </div>
+              <div class="item-badge">Uygula</div>
+            </div>
+          </div>
+
+          <div class="ios-list-title">Özel Saat Belirle</div>
+          <div class="ios-list-group" style="padding: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="color: #fff; font-size: 13px;">Seçilen Saat: <b id="customHourLabel">15:00</b></span>
+              <button style="background: #0a84ff; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="phoneApp.applyCustomHour()">Ayarla</button>
+            </div>
+            <input type="range" min="0" max="23" value="15" style="width: 100%; cursor: pointer;" id="customHourSlider" oninput="document.getElementById('customHourLabel').innerText = this.value + ':00'">
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. POLİS VE CEZA UYGULAMASI -->
+      <div class="app-view" id="view-police">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Trafik Polisi</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div class="ios-list-title">Ceza Sistemi Yönetimi</div>
+          <div class="ios-list-group">
+            <div class="ios-list-item" onclick="phoneApp.togglePolice()">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff3b30;">👮</div>
+                <div>
+                  <div style="font-weight: 700;">Trafik Cezaları</div>
+                  <div class="item-desc">Hız, kırmızı ışık ve hasar cezalarını aç/kapat</div>
+                </div>
+              </div>
+              <div class="item-badge" id="policeStatusBadge" style="color: #34c759; font-weight: 700;">AÇIK</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyPolice(false)">
+              <div class="item-left">
+                <div class="item-icon" style="background: #34c759;">🛡️</div>
+                <div>
+                  <div>Tüm Cezaları Kapat</div>
+                  <div class="item-desc">g_police 0 komutunu gönderir</div>
+                </div>
+              </div>
+              <div class="item-badge">Kapat</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyPolice(true)">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff3b30;">⚠️</div>
+                <div>
+                  <div>Cezaları Aç (Gerçekçi Mod)</div>
+                  <div class="item-desc">g_police 1 komutunu gönderir</div>
+                </div>
+              </div>
+              <div class="item-badge">Aç</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. HAVALI KORNA UYGULAMASI -->
+      <div class="app-view" id="view-horn">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Havalı Kornalar</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 14px 0 10px 0;">
+            <div style="font-size: 38px;">📢</div>
+            <div style="font-size: 17px; font-weight: 800; color: #ff9500; margin-top: 4px;">HAVALI KORNA SİSTEMİ</div>
+            <div style="font-size: 12px; color: #8e8e93; margin-top: 2px;">Oyunda <b>N</b> tuşuna basılı tuttuğunuzda çalar</div>
+          </div>
+
+          <div class="ios-list-title">Aktif Korna Sesi Seçin (Fareyle Tıklayın)</div>
+          <div class="ios-list-group" id="hornListGroup">
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(1)" data-horn="1">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 1 (Klasik Islık/Melodi)</div>
+                  <div class="item-desc">N tuşuna basılı tutulduğunda çalar</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge1">Seçili ✓</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(2)" data-horn="2">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 2 (Bas Tren Kornası)</div>
+                  <div class="item-desc">Güçlü çift ton</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge2">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(3)" data-horn="3">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 3 (Gemi / Vapur Bas)</div>
+                  <div class="item-desc">Derin yankılı ton</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge3">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(4)" data-horn="4">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 4 (Özel Melodi 1)</div>
+                  <div class="item-desc">Ritimli korna</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge4">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(5)" data-horn="5">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 5 (Özel Melodi 2)</div>
+                  <div class="item-desc">Ritimli korna</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge5">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(6)" data-horn="6">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 6 (Tır Trompet)</div>
+                  <div class="item-desc">Klasik Scania/Volvo tarzı</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge6">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(7)" data-horn="7">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 7 (Uzun Melodili)</div>
+                  <div class="item-desc">Kesintisiz basılı tutma modu</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge7">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(8)" data-horn="8">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 8 (Özel Uzun Melodi)</div>
+                  <div class="item-desc">N tuşuna basıldığı sürece çalar</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge8">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(9)" data-horn="9">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 9 (Islık Korna 1)</div>
+                  <div class="item-desc">N tuşuna basılı tutulduğunda çalar</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge9">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(10)" data-horn="10">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 10 (Islık Korna 2)</div>
+                  <div class="item-desc">N tuşuna basılı tutulduğunda çalar</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge10">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.selectHorn(11)" data-horn="11">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">🎺</div>
+                <div>
+                  <div style="font-weight: 700;">Havalı Korna 11 (Islık Korna 3)</div>
+                  <div class="item-desc">N tuşuna basılı tutulduğunda çalar</div>
+                </div>
+              </div>
+              <div class="item-badge horn-badge" id="hornBadge11">Seç</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. DİJİTAL TAKOGRAF UYGULAMASI -->
+      <div class="app-view" id="view-tacho">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Dijital Takograf</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 12px 0 10px 0;">
+            <div style="font-size: 32px;">⏱️</div>
+            <div style="font-size: 16px; font-weight: 800; color: #34c759;" id="tachoModeTitle">SÜRÜŞ MODU: AKTİF</div>
+            <div style="font-size: 11px; color: #8e8e93;">AB Standartları 4.5 Saat Kuralı</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+            <div style="background: #1c1c1e; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.08);">
+              <div style="font-size: 11px; color: #8e8e93; font-weight: 600;">KESİNTİSİZ SÜRÜŞ</div>
+              <div style="font-size: 24px; font-weight: 800; color: #34c759; margin: 4px 0;" id="tachoDriveTime">01:45</div>
+              <div style="font-size: 10px; color: #8e8e93;">Kalan: <b id="tachoRemainingDrive">02:45</b></div>
+            </div>
+
+            <div style="background: #1c1c1e; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.08);">
+              <div style="font-size: 11px; color: #8e8e93; font-weight: 600;">GÜNLÜK TOPLAM</div>
+              <div style="font-size: 24px; font-weight: 800; color: #0a84ff; margin: 4px 0;" id="tachoDailyTime">05:20</div>
+              <div style="font-size: 10px; color: #8e8e93;">Maks: 09:00</div>
+            </div>
+          </div>
+
+          <div class="ios-list-title">Takograf İşlemleri</div>
+          <div class="ios-list-group">
+            <div class="ios-list-item" onclick="phoneApp.resetTacho()">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff9500;">☕</div>
+                <div>
+                  <div style="font-weight: 700;">45 Dk Mola Verildi (Sıfırla)</div>
+                  <div class="item-desc">Sürüş süresini yasal olarak sıfırlar</div>
+                </div>
+              </div>
+              <div class="item-badge">Sıfırla</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. KAMERA & FOTOĞRAF GALERİSİ -->
+      <div class="app-view" id="view-camera">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Kamera & Galeri</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 14px 0;">
+            <button onclick="phoneApp.takePhoto()" style="background: linear-gradient(135deg, #007aff, #0056b3); color: #fff; border: none; padding: 12px 28px; border-radius: 20px; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,122,255,0.4); display: inline-flex; align-items: center; gap: 8px;">
+              <span>📸</span>
+              <span>Fotoğraf Çek</span>
+            </button>
+          </div>
+
+          <div class="ios-list-title">Çekilen Fotoğraflar (Son 3 Kare)</div>
+          <div id="photoGalleryGrid" style="display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 6px;">
+            <div style="text-align: center; color: #8e8e93; font-size: 12px; padding: 18px 0;" id="noPhotoText">Henüz çekilmiş fotoğraf yok.<br>"Fotoğraf Çek" butonuna basarak tırınızın anlık görüntüsünü yakalayın!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. ŞEHİR IŞINLANMA (TELEPORT) -->
+      <div class="app-view" id="view-teleport">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Hızlı Işınlanma</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 12px 0 10px 0;">
+            <div style="font-size: 32px;">⚡</div>
+            <div style="font-size: 16px; font-weight: 800; color: #5ac8fa;">OTOMATİK YERE İNDİRME</div>
+            <div style="font-size: 11px; color: #8e8e93; margin-top: 2px;">Işınlandıktan sonra tır otomatik yere indirilir</div>
+          </div>
+
+          <div class="ios-list-title">Işınlanmak İstediğiniz Şehri Seçin</div>
+          <div class="ios-list-group" id="teleportCityList">
+            <!-- Dinamik JS Şehir Listesi -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. TRAFİK KONTROL UYGULAMASI -->
+      <div class="app-view" id="view-traffic">
+        <div class="app-header">
+          <button class="app-back-btn" onclick="phoneApp.goHome()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <span>Geri</span>
+          </button>
+          <span class="app-title">Trafik Kontrolü</span>
+          <button class="app-close-icon-btn" onclick="phoneApp.goHome()">✕</button>
+        </div>
+        <div class="app-content">
+          <div style="text-align: center; padding: 16px 0 20px 0;">
+            <div style="font-size: 38px; margin-bottom: 4px;">🚦</div>
+            <div style="font-size: 19px; font-weight: 700; color: #fff;">ETS2 Trafik Yoğunluğu</div>
+            <div style="font-size: 13px; color: #8e8e93; margin-top: 2px;" id="trafficCurrentStatus">g_traffic: Aktif</div>
+          </div>
+
+          <div class="ios-list-title">Trafik Seviyesi Seçin</div>
+          <div class="ios-list-group">
+            <div class="ios-list-item" onclick="phoneApp.applyTraffic(0, 'Trafik Kapat')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff3b30;">🚫</div>
+                <div>
+                  <div style="font-weight: 700;">Trafik Kapat</div>
+                  <div class="item-desc">Yapay zeka araçlarını kapatır (g_traffic 0)</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyTraffic(0.5, 'Trafik Az')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #34c759;">🟢</div>
+                <div>
+                  <div style="font-weight: 700;">Trafik Az</div>
+                  <div class="item-desc">Düşük trafik yoğunluğu (g_traffic 0.5)</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyTraffic(1, 'Trafik Orta')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ffcc00;">🟡</div>
+                <div>
+                  <div style="font-weight: 700;">Trafik Orta</div>
+                  <div class="item-desc">Normal varsayılan trafik (g_traffic 1)</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+
+            <div class="ios-list-item" onclick="phoneApp.applyTraffic(10, 'Trafik Çok')">
+              <div class="item-left">
+                <div class="item-icon" style="background: #ff2d55;">🔴</div>
+                <div>
+                  <div style="font-weight: 700;">Trafik Çok</div>
+                  <div class="item-desc">Maksimum yoğun trafik modu (g_traffic 10)</div>
+                </div>
+              </div>
+              <div class="item-badge">Seç</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iOS Canlı Sanal Klavye Bileşeni -->
+      <div class="ios-keyboard-overlay" id="iosKeyboard">
+        <div class="keyboard-top-bar">
+          <span class="keyboard-hint" id="keyboardTargetHint">Metin Yazın</span>
+          <button class="keyboard-close-btn" onclick="phoneApp.closeKeyboard()">Bitti</button>
+        </div>
+        <div class="keyboard-rows">
+          <div class="k-row">
+            <button class="k-key" onclick="phoneApp.keyPress('Q')">Q</button>
+            <button class="k-key" onclick="phoneApp.keyPress('W')">W</button>
+            <button class="k-key" onclick="phoneApp.keyPress('E')">E</button>
+            <button class="k-key" onclick="phoneApp.keyPress('R')">R</button>
+            <button class="k-key" onclick="phoneApp.keyPress('T')">T</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Y')">Y</button>
+            <button class="k-key" onclick="phoneApp.keyPress('U')">U</button>
+            <button class="k-key" onclick="phoneApp.keyPress('I')">I</button>
+            <button class="k-key" onclick="phoneApp.keyPress('O')">O</button>
+            <button class="k-key" onclick="phoneApp.keyPress('P')">P</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Ğ')">Ğ</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Ü')">Ü</button>
+          </div>
+          <div class="k-row">
+            <button class="k-key" onclick="phoneApp.keyPress('A')">A</button>
+            <button class="k-key" onclick="phoneApp.keyPress('S')">S</button>
+            <button class="k-key" onclick="phoneApp.keyPress('D')">D</button>
+            <button class="k-key" onclick="phoneApp.keyPress('F')">F</button>
+            <button class="k-key" onclick="phoneApp.keyPress('G')">G</button>
+            <button class="k-key" onclick="phoneApp.keyPress('H')">H</button>
+            <button class="k-key" onclick="phoneApp.keyPress('J')">J</button>
+            <button class="k-key" onclick="phoneApp.keyPress('K')">K</button>
+            <button class="k-key" onclick="phoneApp.keyPress('L')">L</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Ş')">Ş</button>
+            <button class="k-key" onclick="phoneApp.keyPress('İ')">İ</button>
+          </div>
+          <div class="k-row">
+            <button class="k-key k-special" onclick="phoneApp.keyPress('CAPS')">⇧</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Z')">Z</button>
+            <button class="k-key" onclick="phoneApp.keyPress('X')">X</button>
+            <button class="k-key" onclick="phoneApp.keyPress('C')">C</button>
+            <button class="k-key" onclick="phoneApp.keyPress('V')">V</button>
+            <button class="k-key" onclick="phoneApp.keyPress('B')">B</button>
+            <button class="k-key" onclick="phoneApp.keyPress('N')">N</button>
+            <button class="k-key" onclick="phoneApp.keyPress('M')">M</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Ö')">Ö</button>
+            <button class="k-key" onclick="phoneApp.keyPress('Ç')">Ç</button>
+            <button class="k-key k-special" onclick="phoneApp.keyPress('BACKSPACE')">⌫</button>
+          </div>
+          <div class="k-row">
+            <button class="k-key k-special" onclick="phoneApp.keyPress('123')">123</button>
+            <button class="k-key k-space" onclick="phoneApp.keyPress('SPACE')">Boşluk</button>
+            <button class="k-key k-blue" onclick="phoneApp.keyPress('ENTER')">Ara / Git</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alt Home Indicator Çubuğu (Geri Dönüş Çubuğu) -->
+      <div class="home-indicator-bar" onclick="phoneApp.goHome()" title="Ana Ekrana Dön"></div>
+    </div>
+  </div>
+
+  <script src="../Map/ets2MapData.js"></script>
+  <script src="phone.js"></script>
+</body>
+</html>

@@ -1,11 +1,20 @@
 import Foundation
 import Network
 
-/// TCP client for KrankmiliServer (newline-delimited JSON, same protocol as the Android app).
+/// Newline-delimited JSON TCP client. Used for KrankmiliServer (port 5555, same protocol as the
+/// Android app) and for the ETS2.SITE PHONE link (port 5565).
 /// Reconnects every 2 s until disconnect() is called. Callbacks arrive on the main thread.
 final class BoxClient {
     var onLine: ((String) -> Void)?
-    var onState: ((String, String) -> Void)?   // "connecting" | "disconnected", note
+    var onState: ((String, String) -> Void)?   // "connecting" | "connected" | "disconnected", note
+
+    private let sendsHello: Bool
+    private let pingLine: String
+
+    init(sendsHello: Bool = true, pingLine: String = "{\"t\":\"ping\"}") {
+        self.sendsHello = sendsHello
+        self.pingLine = pingLine
+    }
 
     private let queue = DispatchQueue(label: "krankmili.client")
     private var conn: NWConnection?
@@ -43,6 +52,11 @@ final class BoxClient {
 
     func send(_ line: String) { queue.async { self.write(line) } }
 
+    /// True when the client already targets this server (so a page reload does not reconnect).
+    func isTargeting(host: String, port: Int, token: String) -> Bool {
+        return queue.sync { wanted && self.host == host && self.port == port && self.token == token }
+    }
+
     // MARK: - internals (all on `queue`)
 
     private func emit(_ state: String, _ note: String) {
@@ -70,11 +84,14 @@ final class BoxClient {
             case .ready:
                 self.buffer.removeAll()
                 self.lastRx = Date()
-                let hello: [String: Any] = ["t": "hello", "token": self.token]
-                if let d = try? JSONSerialization.data(withJSONObject: hello, options: []),
-                   let s = String(data: d, encoding: .utf8) {
-                    self.write(s)
+                if self.sendsHello {
+                    let hello: [String: Any] = ["t": "hello", "token": self.token]
+                    if let d = try? JSONSerialization.data(withJSONObject: hello, options: []),
+                       let s = String(data: d, encoding: .utf8) {
+                        self.write(s)
+                    }
                 }
+                self.emit("connected", "")
                 self.receive(c, gen)
                 self.startPing(gen)
             case .waiting(let e):
@@ -89,7 +106,7 @@ final class BoxClient {
     }
 
     private func receive(_ c: NWConnection, _ gen: Int) {
-        c.receive(minimumIncompleteLength: 1, maximumLength: 65536) { [weak self] data, _, isComplete, error in
+        c.receive(minimumIncompleteLength: 1, maximumLength: 262144) { [weak self] data, _, isComplete, error in
             guard let self = self, gen == self.generation else { return }
             if let data = data, !data.isEmpty {
                 self.lastRx = Date()
@@ -117,7 +134,7 @@ final class BoxClient {
         t.setEventHandler { [weak self] in
             guard let self = self, gen == self.generation else { return }
             if Date().timeIntervalSince(self.lastRx) > 6 { self.fail(gen, "zaman aşımı"); return }
-            self.write("{\"t\":\"ping\"}")
+            self.write(self.pingLine)
         }
         pingTimer = t
         t.resume()

@@ -1,5 +1,12 @@
-KRANKMILI BUTTON BOX - iOS UYGULAMASI (IPA)
-===========================================
+KRANKMILI + ETS2.SITE PHONE - iOS UYGULAMASI (IPA) v1.1
+=====================================================
+
+YENI (1.1): Uygulama ETS2.SITE PHONE telefonuyla acilir. Ana ekrandaki turuncu "Button Box"
+simgesi Krankmili panelini acar; paneldeki 📱 dugmesi telefona geri dondurur.
+Telefonun hava/saat/polis/trafik/isinlanma komutlari icin PC'de ETS2.SITE PHONE acik olmali ve
+"PC-ETS2SITE-yamasi" klasorundeki main.js kurulmus olmali (bkz. oradaki OKU-BENI.txt).
+Button Box icin her zamanki gibi KrankmiliServer.exe acik olmali. Ikisi ayni IP'yi kullanir
+(Krankmili 5555, ETS2.SITE 5565); IP'yi Button Box'taki disliden degistirirsin.
 
 Bu, Android uygulamasinin iPhone/iPad karsiligi. PC'deki KrankmiliServer.exe'ye DOGRUDAN baglanir
 (Android uygulamasiyla ayni yontem, port 5555). PC'de ek program (KrankmiliWeb) gerekmez.

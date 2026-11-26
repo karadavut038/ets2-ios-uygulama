@@ -1,0 +1,20 @@
+ETS2.SITE PHONE - iPhone baglantisi icin PC yamasi
+=================================================
+
+Bu klasordeki main.js, ETS2.SITE PHONE'un Overlay\main.js dosyasinin iPhone eklenmis halidir.
+Eklenen tek sey: port 5565'te kucuk bir ag kapisi. iPhone'daki Krankmili uygulamasi buraya baglanir;
+hava, saat, polis, trafik, isinlanma, servis ve fotograf komutlari PC'deki telefondan gelmis gibi calisir.
+Telemetri ve N tusu kornasi da iPhone'a gider. Baska hicbir davranis degismez.
+
+KURULUM (evdeki PC'de, bir kere)
+1) ETS2.SITE PHONE klasorunu ac (icinde Overlay, Phone, Audio... klasorleri olan klasor).
+2) Overlay\main.js dosyasini YEDEKLE: kopyala-yapistir, adi "main - Kopya.js" olsun.
+3) Bu klasordeki main.js'i Overlay klasorune kopyala, "Degistir" de.
+4) ETS2.SITE PHONE'u her zamanki gibi baslat. Windows Guvenlik Duvari sorarsa "Ozel ag" icin IZIN VER.
+
+NOT
+- Bu main.js, is yerindeki kopyadan alindi. Evdeki surum farkliysa (yeni guncelleme gelmisse)
+  dosyayi komple degistirmek yerine, bu main.js'teki
+  "// ================= iPHONE UZAKTAN BAGLANTI" ile baslayan blogu, evdeki main.js'te
+  "// ================= GLOBAL KEY HOOK" satirinin hemen ustune yapistir. (Claude Code'a da yaptirabilirsin.)
+- Geri almak icin yedegi ("main - Kopya.js") main.js adiyla geri koy.

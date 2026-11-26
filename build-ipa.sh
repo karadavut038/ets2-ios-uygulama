@@ -12,7 +12,8 @@ echo "SDK: $SDK"
 xcrun -sdk iphoneos swiftc -O -target arm64-apple-ios15.0 -sdk "$SDK" \
   -module-name "$NAME" -o "$APP/$NAME" app/*.swift
 cp app/Info.plist "$APP/Info.plist"
-cp app/panel.html "$APP/"
+cp -R app/www "$APP/www"
+cp app/ios-shim.js "$APP/"
 cp app/*.png "$APP/"
 printf 'APPL????' > "$APP/PkgInfo"
 plutil -convert binary1 "$APP/Info.plist"

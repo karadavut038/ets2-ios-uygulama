@@ -28,6 +28,9 @@
   .dot.ok { background: var(--green); }
   .dot.wait { background: var(--amber); }
   #title { font-weight: 700; font-size: 15px; white-space: nowrap; }
+  #pagebtns { display: flex; gap: 4px; flex: 0 0 auto; }
+  #pagebtns .chip { margin-left: 0 !important; }
+  @media (max-width: 520px) { #title, #note { display: none; } header { gap: 6px; } .chip { padding: 6px 9px; } header > .chip:first-of-type, #dot { order: 0; } #pagebtns { margin-right: auto; } }
   #note { color: var(--dim); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; }
   .chip { background: var(--btn); color: var(--text); border: 1px solid var(--line); border-radius: 8px;
     padding: 6px 11px; font-size: 14px; font-weight: 600; min-width: 36px; text-align: center; }
@@ -109,6 +112,7 @@
 <body>
 <div id="app">
   <header>
+    <button id="home" class="chip" title="Telefona dön" style="display:none">📱</button>
     <span id="dot" class="dot"></span>
     <span id="title">Krankmili</span>
     <span id="note">bağlanıyor…</span>
@@ -185,6 +189,7 @@ function showForm() {
 if (NATIVE) {
   window.kbOnLine = (s) => { let m; try { m = JSON.parse(s); } catch (e) { return; } handleMsg(m); };
   window.kbOnState = (st, note) => {
+    if (st === "connected") return;   // the layout message marks the panel as connected
     releaseAllLocal();
     if (st === "connecting") {
       setConn("wait", note ? "yeniden bağlanıyor… (" + note + ")" : "bağlanıyor…");
@@ -195,6 +200,8 @@ if (NATIVE) {
     }
   };
   $("settings").style.display = "";
+  $("home").style.display = "";
+  $("home").onclick = () => { releaseAllLocal(); location.href = "../Phone/phone.html"; };
   $("settings").onclick = () => { showOverlay("Bağlantı ayarı", "PC'nin IP adresini değiştir."); showForm(); };
   $("cform").addEventListener("submit", (e) => {
     e.preventDefault();

@@ -1,0 +1,1474 @@
+/* ETS2.SITE PHONE - iPhone 16 Pro Max Tasarım Stili */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: transparent;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* iPhone 16 Pro Max Kasa */
+.iphone-frame {
+  position: relative;
+  width: 394px;
+  height: 830px;
+  zoom: 0.77;
+  background: #000000;
+  border-radius: 54px;
+  /* Titanyum çerçeve efekti */
+  padding: 10px;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.75),
+    0 10px 25px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.2),
+    inset 0 0 0 3.5px #2a2a2c,
+    inset 0 0 0 5px #181819;
+  border: 3px solid #4a4846; /* Natural Titanium rengi */
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.iphone-frame.hidden {
+  transform: translateY(115%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Yan Butonlar (Ses, Action Button, Güç, Camera Control) */
+.btn-action {
+  position: absolute;
+  left: -6px;
+  top: 105px;
+  width: 4px;
+  height: 26px;
+  background: #3e3d3b;
+  border-radius: 2px 0 0 2px;
+}
+
+.btn-vol-up {
+  position: absolute;
+  left: -6px;
+  top: 148px;
+  width: 4px;
+  height: 48px;
+  background: #3e3d3b;
+  border-radius: 2px 0 0 2px;
+}
+
+.btn-vol-down {
+  position: absolute;
+  left: -6px;
+  top: 210px;
+  width: 4px;
+  height: 48px;
+  background: #3e3d3b;
+  border-radius: 2px 0 0 2px;
+}
+
+.btn-power {
+  position: absolute;
+  right: -6px;
+  top: 165px;
+  width: 4px;
+  height: 75px;
+  background: #3e3d3b;
+  border-radius: 0 2px 2px 0;
+}
+
+.btn-camera-control {
+  position: absolute;
+  right: -5px;
+  bottom: 160px;
+  width: 3px;
+  height: 52px;
+  background: #2d2c2a;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Ekran (Super Retina XDR OLED) */
+.iphone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 46px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cam Yansıma Efekti */
+.screen-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 65%);
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 46px 46px 0 0;
+}
+
+/* Durum Çubuğu (Status Bar) */
+.status-bar {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  padding: 8px 24px 0 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 90;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-time {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.battery-pill {
+  position: relative;
+  width: 22px;
+  height: 11px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 3.5px;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.battery-pill::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 2.5px;
+  width: 1.5px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 0 1px 1px 0;
+}
+
+.battery-level {
+  height: 100%;
+  width: 85%;
+  background: #34c759;
+  border-radius: 1.5px;
+  transition: width 0.3s ease;
+}
+
+/* Dinamik Ada (Dynamic Island) */
+.dynamic-island-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 95;
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dynamic-island {
+  width: 112px;
+  height: 30px;
+  background: #000000;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+.island-camera {
+  width: 10px;
+  height: 10px;
+  background: #0d1218;
+  border-radius: 50%;
+  box-shadow: inset 0 0 2px #1f3a52;
+}
+
+.island-sensor {
+  width: 8px;
+  height: 8px;
+  background: #080808;
+  border-radius: 50%;
+}
+
+.dynamic-island.expanded {
+  width: 250px;
+  height: 48px;
+  border-radius: 24px;
+  padding: 0 16px;
+  background: #0a0a0c;
+}
+
+.island-content {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 12px;
+}
+
+.dynamic-island.expanded .island-content {
+  display: flex;
+}
+
+/* ================= KİLİT EKRANI (LOCK SCREEN) ================= */
+.lock-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 55px 20px 30px 20px;
+  overflow: hidden;
+  transition: transform 0.65s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.lock-screen.unlocked {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lock-wallpaper {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+  filter: brightness(0.95);
+  transform: scale(1);
+  transition: transform 0.8s ease;
+}
+
+.lock-screen.unlocked .lock-wallpaper {
+  transform: scale(1.08);
+}
+
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.6) 100%);
+  z-index: 2;
+}
+
+.lock-header {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.lock-padlock {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-bottom: 6px;
+}
+
+.lock-padlock svg {
+  width: 18px;
+  height: 18px;
+  fill: #ffffff;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  transition: transform 0.3s ease;
+}
+
+.lock-screen.unlocked .lock-padlock svg {
+  transform: scale(1.2);
+}
+
+.lock-date {
+  font-size: 15px;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.2px;
+}
+
+.lock-time {
+  font-size: 64px;
+  font-weight: 200;
+  color: #ffffff;
+  line-height: 1.05;
+  margin-top: 2px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  font-feature-settings: "tnum";
+}
+
+.lock-footer {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.lock-swipe-bar {
+  width: 120px;
+  height: 4.5px;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  animation: bounceUp 1.8s infinite ease-in-out;
+}
+
+.lock-swipe-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.3px;
+}
+
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0); opacity: 0.8; }
+  50% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Ana Ekran / Duvar Kağıdı */
+.home-screen {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 25%, #18283b 0%, #0c131d 55%, #05080c 100%);
+  padding: 60px 18px 30px 18px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+  z-index: 10;
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.home-screen.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.home-screen.hidden {
+  transform: scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Logo & Üst Başlık */
+.brand-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.brand-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 14px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #5ac8fa;
+}
+
+.brand-title {
+  color: #ffffff;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
+  opacity: 0.75;
+  letter-spacing: 0.5px;
+}
+
+/* Uygulama Izgarası (App Grid - 4x3) */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 10px;
+  padding: 0 4px;
+}
+
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.app-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.app-icon svg {
+  width: 30px;
+  height: 30px;
+  fill: #ffffff;
+}
+
+.app-name {
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 500;
+  margin-top: 6px;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  max-width: 66px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Klavye İle Seçili İkon Vurgusu (Focus Glow) */
+.app-item.focused .app-icon {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 3.5px #00e5ff, 0 10px 22px rgba(0, 229, 255, 0.5);
+}
+
+.app-item.focused .app-name {
+  color: #00e5ff;
+  font-weight: 700;
+}
+
+/* Uygulama İkon Renk Gradiyentleri */
+.icon-nav { background: linear-gradient(135deg, #007aff, #00c6ff); }
+.icon-weather { background: linear-gradient(135deg, #2b5876, #4e4376); }
+.icon-service { background: linear-gradient(135deg, #ff9500, #ff5e3a); }
+.icon-truck { background: linear-gradient(135deg, #34c759, #11998e); }
+.icon-clock { background: linear-gradient(135deg, #1c1c1e, #3a3a3c); }
+.icon-police { background: linear-gradient(135deg, #ff3b30, #b71c1c); }
+.icon-map { background: linear-gradient(135deg, #5856d6, #36d1dc); }
+.icon-garage { background: linear-gradient(135deg, #af52de, #7b1fa2); }
+.icon-sos { background: linear-gradient(135deg, #ff2d55, #f05053); }
+.icon-phone { background: linear-gradient(135deg, #30d158, #1f9c3f); }
+.icon-settings { background: linear-gradient(135deg, #8e8e93 0%, #636366 100%); }
+.icon-horn     { background: linear-gradient(135deg, #ff9500 0%, #ff5e3a 100%); }
+.icon-radio    { background: linear-gradient(135deg, #ff2d55 0%, #ff5e3a 100%); }
+.icon-tacho    { background: linear-gradient(135deg, #34c759 0%, #007aff 100%); }
+.icon-camera   { background: linear-gradient(135deg, #5856d6 0%, #af52de 100%); }
+.icon-teleport { background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%); }
+.icon-traffic  { background: linear-gradient(135deg, #ff9500 0%, #34c759 100%); }
+
+/* Uygulama Pencereleri (App View Container) */
+.app-view {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  padding: 50px 16px 28px 16px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  z-index: 50;
+}
+
+.app-view.active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Uygulama Üst Başlığı (Navigation Bar) */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 12px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 12px;
+}
+
+.app-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #0a84ff;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.app-back-btn:hover {
+  background: rgba(10, 132, 255, 0.18);
+}
+
+.app-close-icon-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.app-close-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.app-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.app-action-btn {
+  color: #0a84ff;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Uygulama İçerik Alanı */
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+}
+
+.app-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.app-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Liste Grupları (iOS Table View) */
+.ios-list-group {
+  background: #1c1c1e;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ios-list-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #8e8e93;
+  margin: 12px 6px 6px 12px;
+  letter-spacing: 0.5px;
+}
+
+.ios-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ios-list-item:last-child {
+  border-bottom: none;
+}
+
+.ios-list-item:hover, .ios-list-item.selected {
+  background: #2c2c2e;
+}
+
+.ios-list-item.selected {
+  outline: 2px solid #00e5ff;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: #ffffff;
+}
+
+.item-desc {
+  font-size: 11px;
+  color: #8e8e93;
+  margin-top: 1px;
+}
+
+.item-badge {
+  font-size: 12px;
+  color: #0a84ff;
+  font-weight: 500;
+}
+
+/* Navigasyon 3D Ekranı */
+.nav-screen-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#nav3dCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Navigasyon Üst Banner HUD */
+.nav-hud-top {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  background: rgba(16, 24, 38, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.turn-icon-box {
+  width: 44px;
+  height: 44px;
+  background: #34c759;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.turn-icon-box svg {
+  width: 26px;
+  height: 26px;
+  fill: #ffffff;
+}
+
+.turn-info {
+  flex: 1;
+}
+
+.turn-distance {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.turn-road {
+  color: #8e8e93;
+  font-size: 11px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Navigasyon Alt HUD */
+.nav-hud-bottom {
+  position: absolute;
+  bottom: 12px;
+  left: 8px;
+  right: 8px;
+  background: rgba(16, 24, 38, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.speed-box {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.speed-val {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.speed-unit {
+  color: #8e8e93;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.speed-limit-sign {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ff3b30;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.nav-trip-info {
+  text-align: right;
+}
+
+.nav-remaining-dist {
+  color: #34c759;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.nav-eta {
+  color: #8e8e93;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+/* Rota Hedef Seçici Düğmesi */
+.nav-target-select-btn {
+  position: absolute;
+  top: 76px;
+  right: 10px;
+  background: rgba(10, 132, 255, 0.9);
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Alt Home Indicator */
+.home-indicator-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 135px;
+  height: 4.5px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  z-index: 99;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-indicator-bar:hover {
+  background: #ffffff;
+  width: 145px;
+}
+
+/* Bildirim Kutusu (Notification Toast) */
+.phone-toast {
+  position: absolute;
+  top: 50px;
+  left: 12px;
+  right: 12px;
+  background: rgba(30, 30, 32, 0.95);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 12px;
+  z-index: 150;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transform: translateY(-80px);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.phone-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #0a84ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #fff;
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: #5ac8fa;
+}
+
+.toast-msg {
+  font-size: 11px;
+  color: #e5e5ea;
+  margin-top: 1px;
+}
+
+
+/* ================= RADYO UYGULAMASI ================= */
+.icon-radio { background: linear-gradient(135deg, #ff2d55 0%, #ff3b30 100%); }
+
+.radio-player-card {
+  background: linear-gradient(135deg, #1c1c1e 0%, #2a0c14 100%);
+  border: 1px solid rgba(255, 45, 85, 0.25);
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.radio-active-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff2d55, #ff3b30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(255, 45, 85, 0.4);
+  flex-shrink: 0;
+}
+
+.radio-active-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.radio-active-category {
+  font-size: 11px;
+  color: #ff2d55;
+  margin-top: 2px;
+}
+
+.radio-status-tag {
+  font-size: 10px;
+  color: #34c759;
+  margin-top: 3px;
+}
+
+.radio-waves {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 32px;
+}
+
+.radio-waves span {
+  width: 4px;
+  height: 8px;
+  background: #ff2d55;
+  border-radius: 2px;
+  transition: height 0.1s;
+}
+
+.radio-waves.playing span:nth-child(1) { animation: radiowave 0.8s infinite ease-in-out; }
+.radio-waves.playing span:nth-child(2) { animation: radiowave 1.1s infinite 0.1s ease-in-out; }
+.radio-waves.playing span:nth-child(3) { animation: radiowave 0.7s infinite 0.2s ease-in-out; }
+.radio-waves.playing span:nth-child(4) { animation: radiowave 1.3s infinite 0.15s ease-in-out; }
+.radio-waves.playing span:nth-child(5) { animation: radiowave 0.9s infinite 0.25s ease-in-out; }
+
+@keyframes radiowave {
+  0%, 100% { height: 8px; opacity: 0.6; }
+  50% { height: 28px; opacity: 1; background: #ff453a; }
+}
+
+.radio-controls-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.radio-play-btn {
+  background: #ff2d55;
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(255, 45, 85, 0.5);
+  transition: transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.radio-play-btn:active { transform: scale(0.92); }
+
+.radio-stations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.radio-station-card {
+  background: #1c1c1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.radio-station-card:hover,
+.radio-station-card.active {
+  border-color: rgba(255, 45, 85, 0.4);
+  background: #2a0c14;
+}
+
+.radio-station-card.active {
+  border-color: #ff2d55;
+}
+
+.radio-station-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.radio-station-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.radio-station-genre {
+  font-size: 10.5px;
+  color: #8e8e93;
+  margin-top: 1px;
+}
+
+.radio-station-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.radio-station-badge.live { background: #ff2d55; color: #fff; }
+.radio-station-badge.playing { background: #34c759; color: #fff; }
+
+
+/* Web / Browser İçerik Alanı */
+.browser-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.browser-search-bar {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #1c1c1e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.browser-input {
+  flex: 1;
+  background: #2c2c2e;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  outline: none;
+}
+
+.browser-input:focus {
+  border-color: #0a84ff;
+  background: #333336;
+}
+
+.browser-go-btn {
+  background: #0a84ff;
+  color: #fff;
+  border: none;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.browser-go-btn:hover {
+  background: #0070e0;
+}
+
+/* Hızlı Kısayol Müzik / Arama Çipleri */
+.quick-chips-row {
+  display: flex;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #151517;
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.quick-chips-row::-webkit-scrollbar {
+  display: none;
+}
+
+.quick-chip {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e5e5ea;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.quick-chip:hover {
+  background: #0a84ff;
+  color: #fff;
+  border-color: #0a84ff;
+}
+
+.google-search-header {
+  padding: 12px 10px;
+  background: #1c1c1e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.google-logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.google-input-box {
+  display: flex;
+  align-items: center;
+  background: #2c2c2e;
+  border-radius: 20px;
+  padding: 6px 12px;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.google-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+}
+
+.google-clear-btn {
+  background: transparent;
+  border: none;
+  color: #8e8e93;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.webview-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+.webview-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #121212;
+}
+
+/* ================= iOS CANLI SANAL KLAVYE ================= */
+.ios-keyboard-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(28, 28, 30, 0.96);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 8px 6px 20px 6px;
+  z-index: 200;
+  transform: translateY(105%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.75);
+}
+
+.ios-keyboard-overlay.open {
+  transform: translateY(0);
+}
+
+.keyboard-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px 6px 4px;
+}
+
+.keyboard-hint {
+  color: #8e8e93;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.keyboard-close-btn {
+  background: #0a84ff;
+  color: #ffffff;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.keyboard-close-btn:hover {
+  background: #0070e0;
+}
+
+.keyboard-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.k-row {
+  display: flex;
+  justify-content: center;
+  gap: 3.5px;
+}
+
+.k-key {
+  flex: 1;
+  height: 38px;
+  background: #3a3a3c;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  transition: background 0.1s ease, transform 0.05s ease;
+}
+
+.k-key:hover {
+  background: #48484a;
+}
+
+.k-key:active {
+  background: #0a84ff;
+  transform: scale(0.95);
+}
+
+.k-special {
+  flex: 1.4;
+  background: #2c2c2e;
+  font-size: 12px;
+}
+
+.k-space {
+  flex: 4.5;
+  font-size: 12px;
+  color: #d1d1d6;
+}
+
+.k-blue {
+  flex: 2;
+  background: #0a84ff;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+
+/* =====================================================================
+   ETS2.SITE YENİ ANA EKRAN GÖRÜNÜMÜ (sadece görünüm – işlevler aynı)
+   Eski hali: phone.css.bak_eski_arayuz
+   ===================================================================== */
+
+/* Mavi neon dalgalı duvar kağıdı */
+.home-screen {
+  background:
+    radial-gradient(120% 60% at 110% 105%, rgba(0, 140, 255, 0.55) 0%, rgba(0, 90, 220, 0.18) 35%, transparent 60%),
+    radial-gradient(140% 70% at -20% 75%, rgba(0, 110, 255, 0.35) 0%, transparent 55%),
+    radial-gradient(90% 40% at 100% 20%, rgba(40, 120, 255, 0.35) 0%, transparent 60%),
+    linear-gradient(160deg, #06101f 0%, #040a16 45%, #02060d 100%);
+  padding-top: 64px;
+}
+.home-screen::before,
+.home-screen::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+/* parlayan dalga çizgileri */
+.home-screen::before {
+  left: -40%; right: -40%; bottom: -18%;
+  height: 70%;
+  border-top: 2px solid rgba(80, 170, 255, 0.85);
+  box-shadow: 0 -6px 30px rgba(30, 140, 255, 0.55), inset 0 12px 40px rgba(30, 120, 255, 0.25);
+  transform: rotate(-14deg);
+}
+.home-screen::after {
+  left: -10%; right: -70%; top: 8%;
+  height: 55%;
+  border-bottom: 1.5px solid rgba(90, 170, 255, 0.55);
+  box-shadow: 0 8px 26px rgba(30, 130, 255, 0.35);
+  transform: rotate(-22deg);
+}
+.home-screen > * { position: relative; z-index: 1; }
+
+/* Logo başlığı */
+.brand-header { margin-bottom: 26px; }
+.brand-badge {
+  position: relative;
+  background: none;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0 4px;
+  font-size: 24px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(60, 160, 255, 0.85), 0 2px 0 #0a3d8f;
+}
+.brand-badge::before,
+.brand-badge::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 62px;
+  height: 1.5px;
+}
+.brand-badge::before { right: 100%; margin-right: 10px; background: linear-gradient(90deg, transparent, rgba(120, 190, 255, 0.9)); }
+.brand-badge::after  { left: 100%;  margin-left: 10px;  background: linear-gradient(90deg, rgba(120, 190, 255, 0.9), transparent); }
+.brand-title {
+  margin-top: 2px;
+  font-size: 9.5px;
+  letter-spacing: 3.5px;
+  color: #9fc7ff;
+  opacity: 0.9;
+}
+
+/* Cam efektli parlak ikonlar */
+.app-grid { gap: 20px 8px; }
+.app-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -8px 16px rgba(0, 0, 0, 0.35),
+    0 0 14px var(--icon-glow, rgba(0, 140, 255, 0.45)),
+    0 8px 16px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+.app-icon::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 50%;
+  border-radius: 14px 14px 40% 40% / 14px 14px 18px 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.04));
+  pointer-events: none;
+}
+.app-icon svg {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+}
+.app-name {
+  font-size: 10.5px;
+  font-weight: 600;
+  margin-top: 7px;
+}
+
+/* Renkler – referans tasarım */
+.icon-radio    { --icon-glow: rgba(255, 40, 80, 0.6);   background: linear-gradient(160deg, #ff4d6d 0%, #e0102f 55%, #8a0018 100%); border-color: rgba(255, 120, 140, 0.7); }
+.icon-weather  { --icon-glow: rgba(30, 140, 255, 0.6);  background: linear-gradient(160deg, #4fb3ff 0%, #0a6bff 55%, #063a9e 100%); border-color: rgba(120, 190, 255, 0.7); }
+.icon-service  { --icon-glow: rgba(255, 140, 0, 0.6);   background: linear-gradient(160deg, #ffb340 0%, #ff7a00 55%, #b34700 100%); border-color: rgba(255, 190, 110, 0.7); }
+.icon-clock    { --icon-glow: rgba(160, 175, 200, 0.35); background: linear-gradient(160deg, #5b6474 0%, #2b313c 55%, #12161d 100%); border-color: rgba(200, 210, 225, 0.45); }
+.icon-police   { --icon-glow: rgba(30, 110, 255, 0.55); background: linear-gradient(160deg, #2f6dff 0%, #0b2f9e 55%, #061a5c 100%); border-color: rgba(110, 160, 255, 0.65); }
+.icon-horn     { --icon-glow: rgba(255, 190, 0, 0.6);   background: linear-gradient(160deg, #ffd34d 0%, #e09b00 55%, #7a4f00 100%); border-color: rgba(255, 220, 120, 0.75); }
+.icon-tacho    { --icon-glow: rgba(20, 200, 110, 0.55); background: linear-gradient(160deg, #3fe08a 0%, #10a35a 55%, #075c31 100%); border-color: rgba(120, 240, 170, 0.65); }
+.icon-camera   { --icon-glow: rgba(190, 80, 255, 0.6);  background: linear-gradient(160deg, #d27bff 0%, #9b2cf0 55%, #561090 100%); border-color: rgba(220, 160, 255, 0.7); }
+.icon-teleport { --icon-glow: rgba(0, 170, 255, 0.75);  background: linear-gradient(160deg, #1e7bff 0%, #0646d6 55%, #031f7a 100%); border-color: rgba(80, 200, 255, 0.95); }
+.icon-traffic  { --icon-glow: rgba(120, 220, 40, 0.55); background: linear-gradient(160deg, #8fe04a 0%, #3c9e12 55%, #1f5a06 100%); border-color: rgba(190, 255, 130, 0.65); }
+
+/* Klavye seçimi (eski davranış korunur) */
+.app-item.focused .app-icon {
+  transform: scale(1.12);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
+    0 0 0 3px #00e5ff,
+    0 0 22px rgba(0, 229, 255, 0.65);
+}
