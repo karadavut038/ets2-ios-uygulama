@@ -1,0 +1,18 @@
+name: IPA olustur
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Imzasiz IPA derle
+        run: bash build-ipa.sh
+      - name: IPA'yi indirilebilir yap
+        uses: actions/upload-artifact@v4
+        with:
+          name: KrankmiliButtonBox-ipa
+          path: build/KrankmiliButtonBox.ipa
