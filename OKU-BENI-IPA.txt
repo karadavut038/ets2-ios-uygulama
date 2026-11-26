@@ -1,0 +1,36 @@
+KRANKMILI BUTTON BOX - iOS UYGULAMASI (IPA)
+===========================================
+
+Bu, Android uygulamasinin iPhone/iPad karsiligi. PC'deki KrankmiliServer.exe'ye DOGRUDAN baglanir
+(Android uygulamasiyla ayni yontem, port 5555). PC'de ek program (KrankmiliWeb) gerekmez.
+
+IPA NASIL OLUSUR (Mac gerekmez - GitHub'in ucretsiz Mac sunucusu derler)
+1) github.com'da ucretsiz hesap ac / giris yap.
+2) Sag ustte "+" > "New repository". Ad: krankmili-ios. Public sec. "Create repository".
+3) Acilan sayfada "uploading an existing file" linkine tikla.
+   Bu zip'ten cikan klasorun ICINDEKI her seyi (".github" klasoru, "app" klasoru,
+   build-ipa.sh, OKU-BENI-IPA.txt) surukleyip birak. "Commit changes".
+   ONEMLI: ".github" klasoru de yuklenmeli; yuklenmediyse asagidaki "B planini" yap.
+4) Ustteki "Actions" sekmesine gir. "IPA olustur" calisiyor olmali (sari daire). ~2-4 dakika.
+   Yesil tik olunca ustune tikla, en altta "Artifacts" > "KrankmiliButtonBox-ipa" indir.
+   Inen zip'in icinde KrankmiliButtonBox.ipa var (IMZASIZ).
+5) IPA'yi kendi imzalama araciyla / sertifikanla imzala ve kur.
+
+B PLANI (.github klasoru yuklenmezse)
+Repo'da "Actions" > "set up a workflow yourself" > dosya adini ipa.yml birak,
+icerigi .github/workflows/ipa.yml dosyasindakiyle degistir > "Commit changes".
+
+KULLANIM
+1) PC'de KrankmiliServer.exe acik olsun (her zamanki gibi).
+2) Uygulamayi ac. Ilk acilista "yerel agdaki cihazlar" izni sorar -> IZIN VER.
+   (Yanlislikla reddettiysen: Ayarlar > Krankmili > Yerel Ag'i ac.)
+3) PC'nin IP adresini yaz (KrankmiliServer tepsi simgesindeki goz / krankmili-server.log "IPs:"),
+   port 5555, "Baglan". Adres kaydedilir, sonraki acilislarda otomatik baglanir.
+4) Sag ustteki disli: IP degistirme. Hoparlor: butonlardaki sesli bilgiyi iPhone'un Turkce sesiyle okur.
+
+NOTLAR
+- Uygulama arka plana gecince baglantiyi kapatir; sunucu basili kalan tuslari birakir.
+  Geri gelince kendiliginden yeniden baglanir. Panel acikken ekran kararmaz.
+- Otomatik PC bulma yok (iOS bunun icin ozel bir Apple izni istiyor); IP elle yazilir.
+- Sesli KOMUT (mikrofonla tusa basma) bu surumde yok. Istenirse sonraki surume eklenebilir.
+- Telefonu yan cevir: tablet duzeni. Dik: kaydirilabilir liste.

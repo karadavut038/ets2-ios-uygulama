@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Krankmili">
+<meta name="theme-color" content="#101317">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<title>Krankmili Button Box</title>
+<style>
+  :root {
+    --bg: #101317; --panel: #191d23; --btn: #242a32; --btn2: #2c333d; --line: #303844;
+    --text: #e8ecf1; --dim: #8b95a3; --amber: #ffb020; --red: #ff4d4d; --green: #3ccf7a; --blue: #4aa3ff;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+  #app { position: fixed; inset: 0; display: flex; flex-direction: column;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+
+  header { display: flex; align-items: center; gap: 8px; padding: 6px 10px; flex: 0 0 auto; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); flex: 0 0 auto; }
+  .dot.ok { background: var(--green); }
+  .dot.wait { background: var(--amber); }
+  #title { font-weight: 700; font-size: 15px; white-space: nowrap; }
+  #note { color: var(--dim); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; }
+  .chip { background: var(--btn); color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 11px; font-size: 14px; font-weight: 600; min-width: 36px; text-align: center; }
+  .chip.on { background: var(--amber); color: #111; border-color: var(--amber); }
+  select.chip { -webkit-appearance: none; appearance: none; }
+
+  #pages { flex: 1 1 auto; position: relative; overflow: hidden; }
+  .page { position: absolute; inset: 0; display: flex; gap: 8px; padding: 4px 8px 8px; transition: transform .25s ease; }
+  .col { flex: 1 1 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .grp { background: var(--panel); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; min-height: 0; }
+  .grp h3 { margin: 0 0 5px 3px; font-size: 11px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: .04em; }
+  .grid { flex: 1 1 auto; display: grid; gap: 6px; grid-auto-rows: 1fr; min-height: 0; }
+
+  .b { background: var(--btn); border: 1px solid var(--line); border-radius: 10px; color: var(--text);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    padding: 4px; min-height: 0; overflow: hidden; text-align: center; transition: background .08s, transform .08s; }
+  .b .ic { font-size: 20px; line-height: 1; }
+  .b .lb { font-size: 14px; font-weight: 650; line-height: 1.1; }
+  .b .sb { font-size: 11px; color: var(--dim); line-height: 1.1; }
+  .b.accent { background: var(--btn2); border-color: #46505e; }
+  .b.down { transform: scale(.96); background: #3a4350; }
+  .b.held { background: var(--amber); color: #111; border-color: var(--amber); }
+  .b.held .sb { color: #333; }
+  .b.lit { box-shadow: inset 0 0 0 2px var(--amber); color: var(--amber); }
+  .b.blink-a { animation: blinkA 1s steps(1) infinite; }
+  .b.blink-r { animation: blinkR 1s steps(1) infinite; }
+  @keyframes blinkA { 50% { background: var(--amber); color: #111; } }
+  @keyframes blinkR { 50% { background: var(--red); color: #fff; } }
+  .b.pulse { animation: pulse .35s ease-out; }
+  @keyframes pulse { 0% { background: var(--amber); color: #111; } 100% { } }
+
+  .status { display: flex; flex-direction: column; gap: 6px; font-size: 13px; padding: 2px 4px; overflow: hidden; }
+  .srow { display: grid; grid-template-columns: 78px 1fr; align-items: center; gap: 6px; }
+  .srow .k { color: var(--dim); }
+  .bar { height: 6px; background: #0b0d10; border-radius: 4px; overflow: hidden; margin-top: 3px; }
+  .bar i { display: block; height: 100%; background: var(--green); }
+  .cargo { background: #0f1216; border-radius: 8px; padding: 6px 8px; margin-top: 2px; }
+  .cargo .k { font-size: 10px; color: var(--dim); font-weight: 700; letter-spacing: .05em; }
+
+  /* small landscape phone: tighter type; tiny buttons drop icon + sub line */
+  @media (max-height: 460px) and (min-aspect-ratio: 1/1) {
+    header { padding: 3px 10px; } .chip { padding: 4px 9px; font-size: 13px; }
+    .page { gap: 6px; padding: 2px 6px 6px; } .col { gap: 6px; } .grp { padding: 5px; border-radius: 10px; }
+    .grp h3 { font-size: 9px; margin-bottom: 3px; } .grid { gap: 4px; }
+    .b .ic { font-size: 15px; } .b .lb { font-size: 12px; } .b .sb { font-size: 9px; }
+    .status { font-size: 11px; gap: 3px; } .srow { grid-template-columns: 62px 1fr; }
+  }
+  .b.tiny .ic, .b.tiny .sb { display: none; }
+  .b.tiny .lb { font-size: 11px; }
+
+  /* portrait phone: columns stack, page scrolls vertically */
+  @media (max-aspect-ratio: 1/1) {
+    .page { flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .col { flex: 0 0 auto; }
+    .grp { flex: 0 0 auto !important; }
+    .grid { grid-auto-rows: 64px; }
+  }
+
+  #modal { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: none; align-items: center; justify-content: center; z-index: 10; }
+  #modal .box { background: var(--panel); border-radius: 16px; padding: 20px; width: min(360px, 88vw); text-align: center; }
+  #modal p { font-size: 18px; margin: 0 0 18px; }
+  #modal .row { display: flex; gap: 10px; }
+  #modal button { flex: 1; font-size: 17px; font-weight: 700; padding: 14px; border-radius: 12px; border: 0; }
+  #yes { background: var(--green); color: #111; }
+  #no { background: var(--btn2); color: var(--text); }
+
+  #overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column;
+    gap: 10px; background: var(--bg); z-index: 5; text-align: center; padding: 24px; }
+  #overlay h2 { margin: 0; }
+  #overlay p { color: var(--dim); margin: 0; max-width: 420px; line-height: 1.4; }
+  #cform { display: flex; flex-direction: column; gap: 10px; width: min(360px, 90vw); text-align: left; margin-top: 6px; }
+  #cform label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--dim); }
+  #cform input { font-size: 18px; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--btn); color: var(--text);
+    -webkit-user-select: text; user-select: text; }
+  #cform button { font-size: 18px; font-weight: 700; padding: 13px; border-radius: 12px; border: 0; background: var(--amber); color: #111; margin-top: 4px; }
+  #cform small { color: var(--dim); line-height: 1.4; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <span id="dot" class="dot"></span>
+    <span id="title">Krankmili</span>
+    <span id="note">bağlanıyor…</span>
+    <span id="pagebtns"></span>
+    <select id="profile" class="chip" style="display:none"></select>
+    <button id="voice" class="chip" title="Sesli bilgi">🔇</button>
+    <button id="settings" class="chip" title="Bağlantı" style="display:none">⚙️</button>
+  </header>
+  <div id="pages"></div>
+</div>
+
+<div id="overlay"><h2>Bağlanıyor…</h2><p id="ovtext">PC'deki Krankmili Web Köprüsü'ne bağlanılıyor.</p>
+  <form id="cform" style="display:none">
+    <label>PC'nin IP adresi<input id="fhost" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="192.168.1.35"></label>
+    <label>Port<input id="fport" inputmode="numeric" value="5555"></label>
+    <label>Token (boşsa boş bırak)<input id="ftoken" autocomplete="off" autocorrect="off" autocapitalize="off"></label>
+    <button type="submit">Bağlan</button>
+    <small>IP adresini KrankmiliServer'ın tepsi simgesinden (göz simgesi) ya da krankmili-server.log içindeki "IPs:" satırından bulabilirsin. Telefon ve PC aynı Wi-Fi'de olmalı.</small>
+  </form>
+</div>
+
+<div id="modal"><div class="box"><p id="mtext"></p><div class="row"><button id="no">Hayır</button><button id="yes">Evet</button></div></div></div>
+
+<script>
+"use strict";
+const ICONS = {
+  arrow_up: "▲", arrow_down: "▼", axle_up: "⤒", axle_down: "⤓", beacon: "🚨", bulb: "💡", bus: "🚌",
+  check: "✔", close: "✖", flash: "⚡", hazard: "⚠️", headlight: "🔆", left: "◀", right: "▶", link: "🔗",
+  unlink: "⛓️", parking: "🅿️", power: "🔑", reset: "↺", service: "🔧", susp_up: "⇧", susp_down: "⇩",
+  wiper: "🌧️", camera: "🎥", mic: "🎤"
+};
+
+let sid = "", es = null, layout = [], profiles = [], profile = "", truck = null;
+let page = 1, pageList = [1];
+const btnEls = {};          // id -> [elements]
+const btnDefs = {};         // id -> button def
+const holdTimers = {};      // id -> interval
+let blink = {};             // id -> "a" | "r" (indicator / hazard, tracked locally like the tablet)
+let voiceOn = false;
+try { voiceOn = localStorage.getItem("kbVoice") === "1"; } catch (e) {}
+
+const $ = (id) => document.getElementById(id);
+
+// ---------------------------------------------------------------- connection
+// NATIVE: running inside the iOS app (the app owns the TCP link to KrankmiliServer).
+// otherwise: running in a browser through KrankmiliWeb.exe (Server-Sent Events + POST).
+const NATIVE = !!(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.kb);
+let haveLayout = false;
+
+function handleMsg(m) {
+  if (m.t === "layout") {
+    layout = m.groups || []; profiles = m.profiles || []; profile = m.profile || "";
+    haveLayout = true; render(); setConn("ok", "bağlı"); hideOverlay();
+  } else if (m.t === "status") {
+    truck = m; updateStatus(); updateStates();
+  } else if (m.t === "error") {
+    setConn("bad", m.msg || "sunucu hatası");
+    showOverlay("Sunucu hatası", m.msg === "bad token" ? "Token hatalı. config.json'daki token'ı kontrol et." : (m.msg || ""));
+    if (NATIVE) showForm();
+  }
+}
+
+function nativePost(o) { try { window.webkit.messageHandlers.kb.postMessage(o); } catch (e) {} }
+
+function showForm() {
+  const sv = window.kbSaved || {};
+  $("fhost").value = $("fhost").value || sv.host || "";
+  $("fport").value = sv.port || $("fport").value || 5555;
+  $("ftoken").value = $("ftoken").value || sv.token || "";
+  $("overlay").style.display = "flex";
+  $("cform").style.display = "flex";
+}
+
+if (NATIVE) {
+  window.kbOnLine = (s) => { let m; try { m = JSON.parse(s); } catch (e) { return; } handleMsg(m); };
+  window.kbOnState = (st, note) => {
+    releaseAllLocal();
+    if (st === "connecting") {
+      setConn("wait", note ? "yeniden bağlanıyor… (" + note + ")" : "bağlanıyor…");
+      if (!haveLayout) showOverlay("Bağlanıyor…", "PC'deki KrankmiliServer'a bağlanılıyor" + (note ? " — " + note : "") + ". KrankmiliServer açık mı, IP doğru mu?");
+    } else {
+      setConn("bad", note || "bağlı değil"); haveLayout = false;
+      showOverlay("Bağlantı", note || "PC'ye bağlan"); showForm();
+    }
+  };
+  $("settings").style.display = "";
+  $("settings").onclick = () => { showOverlay("Bağlantı ayarı", "PC'nin IP adresini değiştir."); showForm(); };
+  $("cform").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const host = $("fhost").value.trim(), port = parseInt($("fport").value, 10) || 5555, token = $("ftoken").value;
+    if (!host) { $("fhost").focus(); return; }
+    window.kbSaved = { host, port, token };
+    $("cform").style.display = "none"; document.activeElement && document.activeElement.blur();
+    showOverlay("Bağlanıyor…", host + ":" + port);
+    haveLayout = false;
+    nativePost({ op: "connect", host, port, token });
+  });
+}
+
+function connect() {
+  if (NATIVE) {
+    const sv = window.kbSaved || {};
+    if (sv.host) { showOverlay("Bağlanıyor…", sv.host + ":" + (sv.port || 5555)); nativePost({ op: "connect", host: sv.host, port: sv.port || 5555, token: sv.token || "" }); }
+    else { showOverlay("Krankmili Button Box", "İlk kurulum: PC'nin IP adresini yaz."); showForm(); }
+    return;
+  }
+  if (es) { try { es.close(); } catch (e) {} }
+  sid = "";
+  setConn("wait", "bağlanıyor…");
+  es = new EventSource("/events");
+  es.addEventListener("sid", (e) => { sid = e.data; });
+  es.addEventListener("err", (e) => { setConn("bad", JSON.parse(e.data)); showOverlay("PC sunucusu kapalı", JSON.parse(e.data)); });
+  es.onmessage = (e) => {
+    let m; try { m = JSON.parse(e.data); } catch (x) { return; }
+    handleMsg(m);
+  };
+  es.onerror = () => { sid = ""; setConn("wait", "yeniden bağlanıyor…"); releaseAllLocal(); };
+}
+
+function send(obj) {
+  if (NATIVE) { nativePost({ op: "send", line: JSON.stringify(obj) }); return; }
+  if (!sid) return;
+  fetch("/cmd?sid=" + sid, { method: "POST", body: JSON.stringify(obj), keepalive: true, cache: "no-store" })
+    .then((r) => { if (r.status === 410) connect(); })
+    .catch(() => {});
+}
+
+function setConn(kind, text) {
+  $("dot").className = "dot" + (kind === "ok" ? " ok" : kind === "wait" ? " wait" : "");
+  $("note").textContent = text;
+}
+function showOverlay(h, p) { $("overlay").style.display = "flex"; $("overlay").querySelector("h2").textContent = h; $("ovtext").textContent = p; }
+function hideOverlay() { $("overlay").style.display = "none"; $("cform").style.display = "none"; }
+
+// ---------------------------------------------------------------- rendering
+function render() {
+  releaseAllLocal();
+  for (const k in btnEls) delete btnEls[k];
+  for (const k in btnDefs) delete btnDefs[k];
+  const pages = $("pages"); pages.innerHTML = "";
+  pageList = [...new Set(layout.map((g) => Math.max(1, g.page || 1)))].sort((a, b) => a - b);
+  if (!pageList.length) pageList = [1];
+  if (!pageList.includes(page)) page = pageList[0];
+
+  for (const p of pageList) {
+    const pe = document.createElement("div"); pe.className = "page"; pe.dataset.page = p;
+    const groups = layout.filter((g) => Math.max(1, g.page || 1) === p);
+    const ncol = Math.max(1, ...groups.map((g) => Math.min(4, Math.max(1, g.column || 1))));
+    for (let c = 1; c <= ncol; c++) {
+      const ce = document.createElement("div"); ce.className = "col";
+      for (const g of groups.filter((g) => Math.min(4, Math.max(1, g.column || 1)) === c)) ce.appendChild(renderGroup(g));
+      pe.appendChild(ce);
+    }
+    pages.appendChild(pe);
+  }
+
+  const pb = $("pagebtns"); pb.innerHTML = "";
+  if (pageList.length > 1) for (const p of pageList) {
+    const b = document.createElement("button"); b.className = "chip"; b.textContent = p; b.style.marginLeft = "4px";
+    b.onclick = () => showPage(p); b.dataset.p = p; pb.appendChild(b);
+  }
+
+  const sel = $("profile");
+  if (profiles.length >= 2) {
+    sel.style.display = ""; sel.innerHTML = "";
+    for (const n of profiles) { const o = document.createElement("option"); o.value = n; o.textContent = n; if (n === profile) o.selected = true; sel.appendChild(o); }
+  } else sel.style.display = "none";
+
+  showPage(page, true);
+  updateStatus(); updateStates();
+  requestAnimationFrame(fitButtons);
+}
+
+function fitButtons() {
+  document.querySelectorAll(".b").forEach((el) => {
+    el.classList.remove("tiny");
+    if (el.scrollHeight > el.clientHeight + 1) el.classList.add("tiny");
+  });
+}
+window.addEventListener("resize", () => requestAnimationFrame(fitButtons));
+
+function renderGroup(g) {
+  const ge = document.createElement("div"); ge.className = "grp";
+  ge.style.flex = (g.weight || 1) + " 1 0";
+  if (g.title) { const h = document.createElement("h3"); h.textContent = g.title; ge.appendChild(h); }
+  if (g.kind === "status") {
+    const s = document.createElement("div"); s.className = "status statusbox"; ge.appendChild(s);
+    return ge;
+  }
+  const grid = document.createElement("div"); grid.className = "grid";
+  const cols = Math.max(1, g.columns || 2);
+  grid.style.gridTemplateColumns = "repeat(" + cols + ", 1fr)";
+  for (const b of (g.buttons || [])) {
+    if (b.hidden) continue;
+    btnDefs[b.id] = b;
+    const be = document.createElement("div"); be.className = "b" + (b.accent ? " accent" : "");
+    be.style.gridColumn = "span " + Math.min(cols, Math.max(1, b.span || 1));
+    const ic = ICONS[b.icon] || "";
+    be.innerHTML = (ic ? '<span class="ic"></span>' : "") + '<span class="lb"></span>' + (b.sub ? '<span class="sb"></span>' : "");
+    if (ic) be.querySelector(".ic").textContent = ic;
+    be.querySelector(".lb").textContent = b.label || b.id;
+    if (b.sub) be.querySelector(".sb").textContent = b.sub;
+    attachPress(be, b);
+    (btnEls[b.id] = btnEls[b.id] || []).push(be);
+    grid.appendChild(be);
+  }
+  ge.appendChild(grid);
+  return ge;
+}
+
+function showPage(p, instant) {
+  page = p;
+  const idx = pageList.indexOf(p);
+  document.querySelectorAll(".page").forEach((pe) => {
+    const i = pageList.indexOf(Number(pe.dataset.page));
+    if (instant) pe.style.transition = "none";
+    pe.style.transform = "translateX(" + ((i - idx) * 100) + "%)";
+    if (instant) { void pe.offsetWidth; pe.style.transition = ""; }
+  });
+  document.querySelectorAll("#pagebtns .chip").forEach((b) => b.classList.toggle("on", Number(b.dataset.p) === p));
+}
+
+// ---------------------------------------------------------------- buttons
+function attachPress(el, b) {
+  let active = false;
+  el.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    if (active) return;
+    active = true;
+    try { el.setPointerCapture(e.pointerId); } catch (x) {}
+    el.classList.add("down");
+    if (b.mode === "hold") {
+      send({ t: "press", id: b.id });
+      el.classList.add("held");
+      // the bridge releases a hold that is not refreshed within 1.5 s, so keep refreshing while the finger is down
+      holdTimers[b.id] = setInterval(() => send({ t: "press", id: b.id }), 400);
+    } else {
+      send({ t: "press", id: b.id });
+      afterTap(b);
+    }
+  });
+  const up = () => {
+    if (!active) return;
+    active = false;
+    el.classList.remove("down");
+    if (b.mode === "hold") {
+      clearInterval(holdTimers[b.id]); delete holdTimers[b.id];
+      el.classList.remove("held");
+      send({ t: "release", id: b.id });
+    }
+  };
+  el.addEventListener("pointerup", up);
+  el.addEventListener("pointercancel", up);
+  el.addEventListener("lostpointercapture", up);
+  el.addEventListener("contextmenu", (e) => e.preventDefault());
+}
+
+function afterTap(b) {
+  for (const el of (btnEls[b.id] || [])) { el.classList.remove("pulse"); void el.offsetWidth; el.classList.add("pulse"); }
+  trackFlasher(b);
+  if (b.speak) say(b.speak);
+  if (b.prompt && b.prompt.text) {
+    $("mtext").textContent = b.prompt.text;
+    $("modal").style.display = "flex";
+    $("yes").onclick = () => { $("modal").style.display = "none"; if (b.prompt.yes) send({ t: "press", id: b.prompt.yes }); };
+    $("no").onclick = () => { $("modal").style.display = "none"; if (b.prompt.no) send({ t: "press", id: b.prompt.no }); };
+  }
+}
+
+// indicators / hazard: the game exposes no flasher state, so (like the tablet) we track our own presses
+function trackFlasher(b) {
+  const txt = ((b.id || "") + " " + (b.label || "") + " " + (b.sub || "")).toLowerCase();
+  const isHaz = b.icon === "hazard" || /hazard|dörtlü|dortlu/.test(txt);
+  const isL = !isHaz && (b.icon === "left") && /sinyal|indicator|blinker/.test(txt);
+  const isR = !isHaz && (b.icon === "right") && /sinyal|indicator|blinker/.test(txt);
+  if (!isHaz && !isL && !isR) return;
+  const id = b.id;
+  if (blink[id]) { delete blink[id]; }
+  else {
+    if (isL || isR) for (const k in blink) if (blink[k] === "a") delete blink[k];   // other side clears
+    blink[id] = isHaz ? "r" : "a";
+    if (!isHaz) setTimeout(() => { if (blink[id] === "a") { delete blink[id]; updateStates(); } }, 20000);
+  }
+  updateStates();
+}
+
+function releaseAllLocal() {
+  for (const id in holdTimers) { clearInterval(holdTimers[id]); delete holdTimers[id]; }
+  document.querySelectorAll(".b.held, .b.down").forEach((e) => e.classList.remove("held", "down"));
+}
+
+function updateStates() {
+  const st = (truck && truck.states) || {};
+  for (const id in btnEls) {
+    const b = btnDefs[id];
+    for (const el of btnEls[id]) {
+      el.classList.toggle("lit", !!(b && b.state && st[b.state] === 1));
+      el.classList.toggle("blink-a", blink[id] === "a");
+      el.classList.toggle("blink-r", blink[id] === "r");
+    }
+  }
+}
+
+// ---------------------------------------------------------------- status panel
+let cargoFlip = 0;
+setInterval(() => { cargoFlip++; updateStatus(); }, 3000);
+
+function row(k, v, frac, goodHigh) {
+  let bar = "";
+  if (frac !== null) {
+    const f = Math.max(0, Math.min(1, frac));
+    const bad = goodHigh ? (f < 0.15 ? "var(--red)" : f < 0.3 ? "var(--amber)" : "var(--green)")
+                         : (f > 0.5 ? "var(--red)" : f > 0.25 ? "var(--amber)" : "var(--green)");
+    bar = '<div class="bar"><i style="width:' + (f * 100).toFixed(0) + '%;background:' + bad + '"></i></div>';
+  }
+  return '<div class="srow"><span class="k">' + esc(k) + '</span><span>' + esc(v) + bar + "</span></div>";
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function updateStatus() {
+  const boxes = document.querySelectorAll(".statusbox");
+  if (!boxes.length) return;
+  let html;
+  const t = truck;
+  if (!t) html = row("Durum", "bekleniyor…", null);
+  else if (!t.plugin) html = row("Durum", "Telemetri eklentisi kurulu değil", null);
+  else if (!t.game) html = row("Durum", "ETS2 kapalı", null);
+  else {
+    const fuelFrac = t.fuelCap > 0 ? t.fuel / t.fuelCap : 0;
+    html = row("Hız", Math.round(t.speed || 0) + " km/sa", null) +
+      row("Yakıt", Math.round(t.fuel || 0) + " L · " + Math.round(t.range || 0) + " km", fuelFrac, true) +
+      row("Motor", "%" + Math.round((t.wearEngine || 0) * 100) + " hasar", t.wearEngine || 0, false) +
+      row("Şanzıman", "%" + Math.round((t.wearTrans || 0) * 100) + " hasar", t.wearTrans || 0, false) +
+      row("Şasi", "%" + Math.round((t.wearChassis || 0) * 100) + " hasar", t.wearChassis || 0, false) +
+      row("Tekerlek", "%" + Math.round((t.wearWheels || 0) * 100) + " hasar", t.wearWheels || 0, false);
+    let ck, cv;
+    if (t.cargoLoaded) {
+      if (cargoFlip % 2 === 0) { ck = "YÜK"; cv = (t.cargo || "?") + " · " + ((t.cargoKg || 0) / 1000).toFixed(1) + " t"; }
+      else { ck = "VARIŞ"; cv = (t.dest || "?") + " · " + Math.round((t.routeKm || 0) / 1000) + " km kaldı"; }
+    } else { ck = "YÜK"; cv = "Yük yok"; }
+    html += '<div class="cargo"><div class="k">' + ck + "</div><div>" + esc(cv) + "</div></div>";
+  }
+  boxes.forEach((b) => { b.innerHTML = html; });
+}
+
+// ---------------------------------------------------------------- spoken feedback (optional, iPhone's own Turkish voice)
+function say(text) {
+  if (!voiceOn || !("speechSynthesis" in window)) return;
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "tr-TR";
+    const v = speechSynthesis.getVoices().find((x) => x.lang && x.lang.toLowerCase().startsWith("tr"));
+    if (v) u.voice = v;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch (e) {}
+}
+function paintVoice() { $("voice").textContent = voiceOn ? "🔊" : "🔇"; $("voice").classList.toggle("on", voiceOn); }
+$("voice").onclick = () => { voiceOn = !voiceOn; try { localStorage.setItem("kbVoice", voiceOn ? "1" : "0"); } catch (e) {} paintVoice(); if (voiceOn) say("Sesli bilgi açık"); };
+paintVoice();
+
+$("profile").onchange = (e) => send({ t: "profile", name: e.target.value });
+
+// ---------------------------------------------------------------- swipe between pages
+let sx = null, sy = null, onBtn = false;
+$("pages").addEventListener("touchstart", (e) => {
+  const t = e.touches[0]; sx = t.clientX; sy = t.clientY; onBtn = !!e.target.closest(".b");
+}, { passive: true });
+$("pages").addEventListener("touchend", (e) => {
+  if (sx === null || onBtn) { sx = null; return; }
+  const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+  sx = null;
+  if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+  const i = pageList.indexOf(page);
+  if (dx < 0 && i < pageList.length - 1) showPage(pageList[i + 1]);
+  if (dx > 0 && i > 0) showPage(pageList[i - 1]);
+}, { passive: true });
+
+// phone locked / Safari in background: let go of everything; reconnect when back
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) { for (const id in holdTimers) send({ t: "release", id }); releaseAllLocal(); }
+  else if (!NATIVE && (!sid || !es || es.readyState === 2)) connect();
+});
+
+// keep the screen awake while the panel is open (iOS 16.4+, ignored elsewhere)
+async function wake() { try { if ("wakeLock" in navigator) await navigator.wakeLock.request("screen"); } catch (e) {} }
+document.addEventListener("pointerdown", wake, { once: true });
+document.addEventListener("visibilitychange", () => { if (!document.hidden) wake(); });
+
+document.addEventListener("gesturestart", (e) => e.preventDefault());   // no pinch zoom on iOS
+connect();
+</script>
+</body>
+</html>
